@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Admin | HSU Events</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;600;700;800&family=Noto+Serif+Tamil:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin">
+
+  <!-- Login -->
+  <section id="login" class="login" hidden>
+    <div class="login-card">
+      <div class="login-logos">
+        <img class="hsu" src="assets/hsu-logo.png" alt="Hindu Student Union logo" width="46" height="64">
+        <img class="uop" src="assets/uop-logo.png" alt="University of Peradeniya logo" width="56" height="56">
+      </div>
+      <h1>Admin sign in</h1>
+      <p class="muted">For HSU committee members who manage events.</p>
+      <form id="loginForm" class="stack">
+        <label>Email <input name="email" type="email" autocomplete="username" required></label>
+        <label>Password <input name="password" type="password" autocomplete="current-password" required></label>
+        <p class="form-msg" id="loginMsg" role="alert"></p>
+        <button class="btn primary wide" type="submit">Sign in</button>
+      </form>
+      <p class="muted small"><a href="index.html">Back to the events site</a></p>
+    </div>
+  </section>
+
+  <!-- App -->
+  <div id="app" hidden>
+    <header class="topbar">
+      <a class="brand" href="admin.html">
+        <span class="brand-logos">
+          <img class="hsu" src="assets/hsu-logo.png" alt="Hindu Student Union logo" width="33" height="46">
+          <span class="sep" aria-hidden="true"></span>
+          <img class="uop" src="assets/uop-logo.png" alt="University of Peradeniya logo" width="40" height="40">
+        </span>
+        <span><strong>Events admin</strong><small>Hindu Student Union</small></span>
+      </a>
+      <div class="row center">
+        <span class="muted small" id="who"></span>
+        <a class="btn small" href="index.html" target="_blank" rel="noopener">View site</a>
+        <button class="btn small" id="logout" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <div class="admin-layout">
+      <aside class="sidebar" aria-label="Admin sections">
+        <nav class="side-nav">
+          <button class="side-link" type="button" data-view="events">Events</button>
+          <button class="side-link" type="button" data-view="updates">Updates</button>
+          <button class="side-link" type="button" data-view="settings">Site text and picture</button>
+        </nav>
+      </aside>
+      <main id="panel" class="panel"></main>
+    </div>
+  </div>
+
+  <!-- Event dialog -->
+  <dialog id="evDlg" class="form-dlg wide-dlg" aria-labelledby="evDlgTitle">
+    <form id="evForm" class="stack" novalidate>
+      <h2 id="evDlgTitle">New event</h2>
+      <label>Event name <input name="title" required maxlength="200" placeholder="e.g. Physics Seminar, Career Guidance Day"></label>
+      <div class="two">
+        <label>Type <select name="category"></select></label>
+        <label>Venue <span class="muted">(optional)</span> <input name="venue" maxlength="160" placeholder="e.g. E-Hall, Faculty of Engineering"></label>
+      </div>
+      <div class="three">
+        <label>Date <input name="start_date" type="date" required></label>
+        <label>Last day <span class="muted">(if longer)</span> <input name="end_date" type="date"></label>
+        <label>Time <span class="muted">(optional)</span> <input name="time_text" maxlength="80" placeholder="9.00 am – 12.00 pm"></label>
+      </div>
+      <label>Short summary <span class="muted">(shown in lists)</span> <input name="summary" maxlength="220"></label>
+      <label>Details <span class="muted">(optional)</span> <textarea name="description" rows="5"></textarea></label>
+      <p class="hint">Leave a blank line to start a new paragraph. Start a line with ## and a space for a heading. Links become clickable.</p>
+      <div class="two">
+        <label>Registration link <span class="muted">(optional)</span> <input name="register_url" type="url" placeholder="https://forms.gle/…"></label>
+        <label>YouTube video <span class="muted">(optional)</span> <input name="video_url" type="url" placeholder="https://youtu.be/…"></label>
+      </div>
+
+      <div class="field-block">
+        <p class="field-label">Cover photo <span class="muted">(optional; otherwise the first photo is used)</span></p>
+        <div class="cover-row">
+          <div class="cover-prev" id="coverPrev"></div>
+          <div class="row">
+            <label class="btn small file-btn">Choose cover<input type="file" name="cover" accept="image/jpeg,image/png,image/webp" hidden></label>
+            <button class="btn small" type="button" id="coverRemove">Remove cover</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <p class="field-label">Photos</p>
+        <div class="thumbs" id="evThumbs"></div>
+        <label class="btn small file-btn">Add photos<input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple hidden></label>
+        <p class="hint flat">Choose several at once. Photos are resized before upload so they load fast on phones.</p>
+      </div>
+
+      <label class="check"><input type="checkbox" name="is_published" checked> Show on the public site</label>
+      <p class="form-msg" id="evMsg" role="alert"></p>
+      <div class="dlg-actions">
+        <button class="btn" type="button" data-close>Cancel</button>
+        <button class="btn primary" type="submit" id="evSave">Save event</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Update dialog -->
+  <dialog id="upDlg" class="form-dlg" aria-labelledby="upDlgTitle">
+    <form id="upForm" class="stack" novalidate>
+      <h2 id="upDlgTitle">New update</h2>
+      <label>Headline <input name="title" required maxlength="200" placeholder="e.g. Venue changed to E-Hall"></label>
+      <label>Message <span class="muted">(optional)</span> <textarea name="body" rows="5"></textarea></label>
+      <label>About which event? <select name="event_id"></select></label>
+      <label class="check"><input type="checkbox" name="is_pinned"> Pin to the top</label>
+      <label class="check"><input type="checkbox" name="is_published" checked> Show on the public site</label>
+      <p class="form-msg" id="upMsg" role="alert"></p>
+      <div class="dlg-actions">
+        <button class="btn" type="button" data-close>Cancel</button>
+        <button class="btn primary" type="submit" id="upSave">Post update</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HSU Events | Hindu Student Union, University of Peradeniya</title>
+  <meta name="description" content="Seminars, workshops, career guidance, leadership and community programmes of the Hindu Student Union, University of Peradeniya, with dates, updates and photos.">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Noto+Sans:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;600;700;800&family=Noto+Serif+Tamil:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#view">Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="#/">
+      <span class="brand-logos">
+        <img class="hsu" src="assets/hsu-logo.png" alt="Hindu Student Union logo" width="33" height="46">
+        <span class="sep" aria-hidden="true"></span>
+        <img class="uop" src="assets/uop-logo.png" alt="University of Peradeniya logo" width="40" height="40">
+      </span>
+      <span><strong data-set="brand_name">HSU Events</strong><small data-set="brand_sub">Hindu Student Union, University of Peradeniya</small></span>
+    </a>
+    <nav class="topnav" aria-label="Main">
+      <a href="#/events" data-nav="events">Events</a>
+      <a href="#/updates" data-nav="updates">Updates</a>
+      <a href="#/about" data-nav="about">About</a>
+    </nav>
+  </header>
+
+  <main id="view" tabindex="-1"></main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div class="footer-logos">
+        <img src="assets/hsu-logo.png" alt="" width="36" height="50">
+        <img src="assets/uop-logo.png" alt="" width="48" height="48">
+      </div>
+      <p class="footer-note" lang="ta" data-set="footer_note">69வது செயற்குழு, இந்து மாணவர் சங்கம், பேராதனைப் பல்கலைக்கழகம்</p>
+      <p class="social" id="social"></p>
+    </div>
+  </footer>
+
+  <dialog id="lightbox" aria-label="Photo viewer">
+    <div class="player-bar">
+      <h2 id="lbCount"></h2>
+      <div class="row tight">
+        <button class="btn small" id="lbPrev" type="button">Previous</button>
+        <button class="btn small" id="lbNext" type="button">Next</button>
+        <button class="btn small" id="lbClose" type="button">Close</button>
+      </div>
+    </div>
+    <div class="lb-frame"><img id="lbImg" alt=""></div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
